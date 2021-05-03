@@ -1,5 +1,12 @@
 # Library for A-Connect
-Here you will find the main script for the library. You can copy and paste this script in the same folder of your project to start using it.
+Here you will find the main script for the library. 
+
+## How to
+
+Copy and paste this script in the same folder of your project to start using it. Then, import the library to your project where you are creating the NN model.
+```
+import AConnect as ac
+```
 
 ## Content description
 
