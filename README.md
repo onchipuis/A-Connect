@@ -13,4 +13,6 @@ If you are similar to a regularization techniques like DropOut or DropConnect, y
 
 ## What do we need to use A-Connect in a project?
 
-A-Connect was developed using Python 3.7 (in general 3.X), TensorFlow 2.4.1 and Numpy 1.20. So you must have this three components on your system in order to avoid compatibility issues. In [AConnect](./AConnect) you can find the library and a fully description of the attributes of the layers. Finally, in [Examples](./Examples) you will find some examples of how to use the library.
+A-Connect was developed using Python 3.7 (in general 3.X), TensorFlow 2.4.1 and Numpy 1.20. So you must have this three components on your system in order to avoid compatibility issues. 
+## Content description
+In [AConnect](./AConnect) you can find the library and a fully description of the attributes of the layers. Finally, in [Examples](./Examples) you will find some examples of how to use the library.
