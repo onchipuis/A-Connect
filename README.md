@@ -3,7 +3,7 @@ Custom library for A-Connect training methodology for neural networks. Available
 
 ## What is A-Connect?
 
-As it was mentioned before, A-Connect is a training methodology for neural networks. A-Connect improves the performance of a neural network when this is used on a inaccurate hardware. Also A-Connect provides an accurate way to binarize the weights of a neural network during the training process.
+A-Connect, is an ex-situ statistical training methodology to mitigate analog computation stochastic variability in neural networks, like the one caused by the mismatch in the synaptic cells. A-Connect methodology can include other types of neural network parameter corruption during training (e.g., weight quantization). Currently, A-Connect only supports the extreme case with binary weights.
 
 ## How A-Connect works?
 
