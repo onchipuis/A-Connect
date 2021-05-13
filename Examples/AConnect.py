@@ -136,25 +136,20 @@ class layers():
 							else:
 								Werr = self.Werr
 				
-							memW = tf.multiply(weights,Werr)			         	#Finally we multiply element-wise the error matrix with the weights.
 
 							if(self.Bstd !=0):								#For the bias is exactly the same situation
 								Berr = abs(1+tf.random.normal(shape=[self.pool,self.output_size],stddev=self.Bstd,dtype=self.d_type))#tf.squeeze(Berr,axis=0)
 							else:
 								Berr = self.Berr
-							membias = tf.multiply(Berr,self.bias)	
 				                
-							Xaux = tf.reshape(self.X, [self.batch_size,1,tf.shape(self.X)[-1]]) 
 							newBatch = tf.cast(tf.floor(tf.cast(self.batch_size/self.pool,dtype=tf.float16)),dtype=tf.int32)
-							Z = tf.matmul(Xaux[0:newBatch], memW[0]) 	#Matrix multiplication between input and mask. With output shape [batchsize,1,128]
+							Z = tf.matmul(self.X[0:newBatch], weights*Werr[0]) 	#Matrix multiplication between input and mask. With output shape [batchsize,1,128]
 							Z = tf.reshape(Z,[newBatch,tf.shape(Z)[-1]]) #We need to reshape again because we are working with column vectors. The output shape must be[batchsize,128]
-							Z = tf.add(Z,membias[0]) #FInally, we add the bias error mask 
+							Z = tf.add(Z,self.bias*Berr[0]) #FInally, we add the bias error mask 
 							for i in range(self.pool-1):
-								Z1 = tf.matmul(Xaux[(i+1)*newBatch:(i+2)*newBatch], memW[i+1])
-								Z1 = tf.reshape(Z1,[newBatch,tf.shape(Z1)[-1]])                       
-								Z1 = tf.add(Z1,membias[i+1])                                           
-								Z = tf.concat([Z,Z1],axis=0)                                                 
-							#Z = self.forward(self.W,self.bias,self.Xaux)                    
+								Z1 = tf.matmul(self.X[(i+1)*newBatch:(i+2)*newBatch], weights*Werr[i+1])
+								Z1 = tf.add(Z1,self.bias*Berr[i+1])                                           
+								Z = tf.concat([Z,Z1],axis=0)                  
 
 							
 					else:
