@@ -8,23 +8,24 @@ import tensorflow as tf
 import numpy as np
 
 #Import A-Connect library
-import AConnect
+import aconnect.layers as layers
+import aconnect.scripts as scripts
 
 #Load dataset
 
-(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+(x_train, y_train), (x_test, y_test) = scripts.load_ds() 
 
 #Let's define our model architecture with one hidden layer of 128 neurons
 #Here you can play with all the attributes that the layer has.
 model = tf.keras.Sequential([
 	tf.keras.layers.InputLayer(input_shape=[28,28]),
 	tf.keras.layers.Reshape((28,28,1)), #Make sure that we include the depth dimension. For Gray-scale is 1 for RGB 3.
-	AConnect.layers.Conv_AConnect(5,(2,2),strides=1,padding="VALID",Wstd=0.5,Bstd=0.5,pool=None,isBin='no',Op=1
+	layers.Conv_AConnect(5,(2,2),strides=1,padding="VALID",Wstd=0.5,Bstd=0.5,pool=None,isBin='no',Op=1
 			,Slice=1,d_type=tf.dtypes.float32,weights_regularizer=None,bias_regularizer=None),
 	tf.keras.layers.BatchNormalization(),
 	tf.keras.layers.ReLU(),
 	tf.keras.layers.Flatten(),	
-	AConnect.layers.FC_AConnect(10,Wstd=0.5,Bstd=0.5,isBin="no",pool=None,Slice=1,d_type=tf.dtypes.float32,weights_regularizer=None,bias_regularizer=None),	
+	layers.FC_AConnect(10,Wstd=0.5,Bstd=0.5,isBin="no",pool=None,Slice=1,d_type=tf.dtypes.float32,weights_regularizer=None,bias_regularizer=None),	
 	tf.keras.layers.Softmax()
 ])
 
@@ -37,4 +38,9 @@ optimizer = tf.keras.optimizers.SGD(learning_rate=0.1,momentum=0.9)
 model.compile(optimizer=optimizer,loss=['sparse_categorical_crossentropy'],metrics=['accuracy',top5])
 history = model.fit(x_train,y_train,validation_split=0.2,epochs = 2,batch_size=256)
 loss, accuracy, top5acc = model.evaluate(x_test,y_test)
+
+accuracy = scripts.MonteCarlo(model,x_test,y_test,1000,0.5,0.5,"no",net_name="MNIST28X28_8Bits",
+custom_objects={"AConnect":AConnect,"ConvAConnect":ConvAConnect},
+optimizer=tf.keras.optimizers.SGD(learning_rate=0.1,momentum=0.9),loss=['sparse_categorical_crossentropy'],metrics=['accuracy',top5],top5=True)
+scripts.plotBox(accuracy,50,"AConnect 50%",[0,0,1],[43/51,227/255,240/255])
 
