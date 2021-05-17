@@ -34,6 +34,7 @@ for k in range(3):
 
 #Also you can change the metrics, the optimizer, and training parameters.
     wstd = str(int(100*Wstd[k]))
+	print("Training A-Connect with ", wstd+"%")    
     top5 = tf.keras.metrics.SparseTopKCategoricalAccuracy(
     k=5, name='top_5_categorical_accuracy', dtype=None
     )
@@ -45,28 +46,31 @@ for k in range(3):
 #After this,we can apply a monte carlo simulation
 Simerr = [0,0.3,0.5,0.7]
 for j in range(3):
-    wstd = str(int(100*Wstd[j]))
-    for i in range(len(Simerr)):
-	    if Simerr[i] == 0:
-	        N = 1
-	    else:
-	        N = 1000
-	    acc = scripts.MonteCarlo("MNIST_test_"+wstd+".h5",x_test,y_test,N,Simerr[i],Simerr[i],"no",net_name="MNIST28X28_8Bits",custom_objects={'FC_AConnect':layers.FC_AConnect},
-	    optimizer=tf.keras.optimizers.SGD(learning_rate=0.1,momentum=0.9),loss=['sparse_categorical_crossentropy'],metrics=['accuracy',top5],top5=True)
-    a = np.loadtxt('AccuracyMNIST28X28_8Bits_simerr_0_0.txt')
-    a = a.flatten()
-    b = np.loadtxt('AccuracyMNIST28X28_8Bits_simerr_30_30.txt')
-    b = b.flatten()
-    c = np.loadtxt('AccuracyMNIST28X28_8Bits_simerr_50_50.txt')
-    c = c.flatten()
-    d = np.loadtxt('AccuracyMNIST28X28_8Bits_simerr_70_70.txt')
-    d = d.flatten()
-    if j == 0:
-        data1 = [a,b,c,d]
-    elif j == 1:
-        data2 = [a,b,c,d]
+	wstd = str(int(100*Wstd[j]))
+	print("Testing A-Connect network trained with: ", wstd)	
+	for i in range(len(Simerr)):
+		if Simerr[i] == 0:
+			N = 1
+		else:
+			N = 1000
+		print("Testing with error: ", str(int(Simerr[i])))			
+		acc = scripts.MonteCarlo("MNIST_test_"+wstd+".h5",x_test,y_test,N,Simerr[i],Simerr[i],"no",net_name="MNIST28X28_8Bits",custom_objects={'FC_AConnect':layers.FC_AConnect},
+		optimizer=tf.keras.optimizers.SGD(learning_rate=0.1,momentum=0.9),loss=['sparse_categorical_crossentropy'],metrics=['accuracy',top5],top5=True)
+	a = np.loadtxt('AccuracyMNIST28X28_8Bits_simerr_0_0.txt')
+	a = a.flatten()
+	b = np.loadtxt('AccuracyMNIST28X28_8Bits_simerr_30_30.txt')
+	b = b.flatten()
+	c = np.loadtxt('AccuracyMNIST28X28_8Bits_simerr_50_50.txt')
+	c = c.flatten()
+	d = np.loadtxt('AccuracyMNIST28X28_8Bits_simerr_70_70.txt')
+	d = d.flatten()
+	if j == 0:
+		data1 = [a,b,c,d]
+	elif j == 1:
+		data2 = [a,b,c,d]
 	else:
 		data3 = [a,b,c,d]
+
 x = [data1,data2,data3] 
 blue_line = [0,0,1]
 blue_fill = [43/51,227/255,240/255]
