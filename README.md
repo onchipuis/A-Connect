@@ -30,7 +30,7 @@ If you want, you can use pip to install A-Connect typing:
 ```
 pip3 install aconnect
 ```
-Or you cant copy and paste the folder aconnect to your project folder.
+Or you can copy and paste the folder aconnect to your project folder.
 ## Content description
 In [AConnect](./AConnect) you can find the library and a fully description of project. [Examples](./Examples) there are some examples of how to use the library with two simple neural networks. One fully connected network and one convolutional network.
 
