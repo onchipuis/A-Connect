@@ -227,21 +227,23 @@ def plotBox(data,labels,legends,color,color_fill,path):
 		ax.set_ylabel("Validation Accuracy (%)",fontdict={'family':'serif','style':'normal','weight' : 'semibold',
 		    'size'   : 17})  
 		d_size = len(data)   
-		if d_size == 1:     
-			b1 = plotChart(ax,data,color=color,color_fill=color_fill,labels=labels)
-			ax.legend([b1["boxes"][0]],legends, loc='lower left',prop={'family':'serif','style':'normal','weight' : 'semibold',
-		    'size'   : 12})	    
+		if d_size == 4:     
+		    b1 = plotChart(ax,data,color=color,color_fill=color_fill,labels=labels)
+		    ax.legend([b1["boxes"][0]],legends, loc='lower left',prop={'family':'serif','style':'normal','weight' : 'semibold',
+		    'size'   : 12})     
 		elif d_size == 2:
-			b1 = plotChart(ax,data[0],color=color[0],color_fill=color_fill[0],labels=labels)	        
-			b2 = plotChart(ax,data[1],color=color[1],color_fill=color_fill[1],labels=labels)
-			ax.legend([b1["boxes"][0], b2["boxes"][0]],[legends[0], legends[1]], loc='lower left',prop={'family':'serif','style':'normal','weight' : 'semibold',
+		    b1 = plotChart(ax,data[0],color=color[0],color_fill=color_fill[0],labels=labels)            
+		    b2 = plotChart(ax,data[1],color=color[1],color_fill=color_fill[1],labels=labels)
+		    ax.legend([b1["boxes"][0], b2["boxes"][0]],[legends[0], legends[1]], loc='lower left',prop={'family':'serif','style':'normal','weight' : 'semibold',
 		    'size'   : 12})
+		elif d_size == 3:
+		    b1 = plotChart(ax,data[0],color=color[0],color_fill=color_fill[0],labels=labels)            
+		    b2 = plotChart(ax,data[1],color=color[1],color_fill=color_fill[1],labels=labels)
+		    b3 = plotChart(ax,data[2],color=color[2],color_fill=color_fill[2],labels=labels)        
+		    ax.legend([b1["boxes"][0], b2["boxes"][0],b3["boxes"][0]],[legends[0], legends[1], legends[2]], loc='lower left',prop={'family':'serif','style':'normal','weight' : 'semibold',
+		    'size'   : 12})   
 		else:
-			b1 = plotChart(ax,data[0],color=color[0],color_fill=color_fill[0],labels=labels)	        
-			b2 = plotChart(ax,data[1],color=color[1],color_fill=color_fill[1],labels=labels)
-			b3 = plotChart(ax,data[2],color=color[2],color_fill=color_fill[2],labels=labels)	    
-			ax.legend([b1["boxes"][0], b2["boxes"][0],b3["boxes"][0]],[legends[0], legends[1], legends[2]], loc='lower left',prop={'family':'serif','style':'normal','weight' : 'semibold',
-		    'size'   : 12})	        
+		    print("Not supported size")         
 	 
 		ax.spines['top'].set_linewidth(1.4)
 		ax.spines['right'].set_linewidth(1.4)
