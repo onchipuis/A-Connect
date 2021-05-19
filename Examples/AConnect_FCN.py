@@ -75,12 +75,12 @@ for j in range(3):
     else:
         data3 = [a, b, c, d]
 
-x = [data1, data2, data3]
-blue_line = [0, 0, 1]
-blue_fill = [43/51, 227/255, 240/255]
-red_line = [1, 0, 0]
-red_fill = [1, 213/255, 213/255]
-green_line = [44/255, 189/255, 110/255]
-green_fill = [160/255, 233/255, 193/255]
-scripts.plotBox(x, [0, 30, 50, 70], ["AConnect 30%", "AConnect 50%", "AConnect 70%"], [
-                red_line, blue_line, green_line], [red_fill, blue_fill, green_fill], './test')
+	x = [data1, data2, data3]
+	blue_line = [0, 0, 1]
+	blue_fill = [43/51, 227/255, 240/255]
+	red_line = [1, 0, 0]
+	red_fill = [1, 213/255, 213/255]
+	green_line = [44/255, 189/255, 110/255]
+	green_fill = [160/255, 233/255, 193/255]
+	scripts.plotBox(x, [0, 30, 50, 70], ["AConnect 30%", "AConnect 50%", "AConnect 70%"], [
+		            red_line, blue_line, green_line], [red_fill, blue_fill, green_fill], './MNIST_test_'+wstd)
