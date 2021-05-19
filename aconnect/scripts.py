@@ -250,4 +250,4 @@ def plotBox(data,labels,legends,color,color_fill,path):
 		ax.spines['bottom'].set_linewidth(1.4)
 		ax.spines['left'].set_linewidth(1.4)
 		plt.savefig(path+'.png')   
-	return plotters(data,labels,legends,color,color_fill,path)
+	return plotBox(data,labels,legends,color,color_fill,path)
