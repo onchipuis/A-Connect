@@ -32,4 +32,7 @@ pip3 install aconnect
 ```
 Or you cant copy and paste the folder aconnect to your project folder.
 ## Content description
-In [AConnect](./AConnect) you can find the library and a fully description of project. Finally, in [Examples](./Examples) you will find some examples of how to use the library.
+In [AConnect](./AConnect) you can find the library and a fully description of project. [Examples](./Examples) there are some examples of how to use the library with two simple neural networks. One fully connected network and one convolutional network.
+
+## Citing A-Connect
+A-Connect is a project developed by Luis Rueda, Ricardo Vergel and Edward Silva. If A-Connect contributes to a  your project, please acknowledge this work by citing the original paper and citing this library.
