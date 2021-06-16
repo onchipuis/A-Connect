@@ -23,8 +23,8 @@ for each parameter are averaged over the training examples in each mini-batch.
 
 ## What do we need to use A-Connect in a project?
 
-A-Connect was developed using Python 3.7 (in general 3.X), TensorFlow 2.4.1 and Numpy 1.20. So you must have this three components on your system in order to avoid compatibility issues.
-If you want to plot some box charts you need to install matplotlib 3.X.
+A-Connect was developed using Python 3.7 (in general 3.X), [TensorFlow 2.4.1](https://www.tensorflow.org/install) and [Numpy 1.20](https://numpy.org/install/). So you must have this three components on your system in order to avoid compatibility issues.
+If you want to plot some box charts you need to install [matplotlib 3.X](https://matplotlib.org/stable/users/installing.html).
 ## How to install A-Connect
 If you want, you can use pip to install A-Connect typing:
 ```
