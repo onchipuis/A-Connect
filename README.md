@@ -9,7 +9,7 @@ A-Connect, is an ex-situ statistical training methodology to mitigate analog com
 
 Consider first a fully-connected layer like the one shown in Figure 1(a), which is the kind of neural network layer that naturally fits in an analog-based CIM architecture. a<sub>k−1</sub> represents the input activations (output activations from the previous layer), W<sub>k</sub> the synaptic weights of the layer k, f<sub>a</sub>(·) the activation function, and a<sub>k</sub> the output activation. In an ideal digital implementation, these weights are unmodified by the hardware executing the neural network, but in an analog implementation, the weights will deviate from their ideal values due to hardware non-idealities, namely, stochastic variability. We modelled this deviation as represented in Figure 1(b), by multiplying (element-wise) the actual weights W with an error mask W<sub>err</sub>. Supposing the behaviour of the synaptic cells follow a normal distribution, this mask will have a mean equal to 1 (ideal values), and 0 ≤ σ% ≤ 1, which represents the standard deviation relative to the absolute mean of the cells (σ% = σ<sub>W</sub> /µ<sub>W</sub> ).
 
-![Figure 1](./fig1.jpg "Fig1")
+![Figure 1](./gitImage.png "Fig1")
 
 Below, you can find a description about how A-Connect modifies the forward and backward propagation for a fully connected layer.
 
