@@ -58,29 +58,41 @@ for j in range(3):
         else:
             N = 1000
         print("Testing with error: ", str(int(Simerr[i])))
-        acc = scripts.MonteCarlo("MNIST_test_"+wstd+".h5", x_test, y_test, N, Simerr[i], Simerr[i], "no", net_name="MNIST28X28_8Bits", custom_objects={'FC_AConnect': layers.FC_AConnect},
+        acc = scripts.MonteCarlo("MNIST_test_"+wstd+".h5", x_test, y_test, N, Simerr[i], Simerr[i], "no", net_name="MNIST28X28_8Bits_"+wstd, custom_objects={'FC_AConnect': layers.FC_AConnect},
                                  optimizer=tf.keras.optimizers.SGD(learning_rate=0.1, momentum=0.9), loss=['sparse_categorical_crossentropy'], metrics=['accuracy', top5], top5=True)
-    a = np.loadtxt('AccuracyMNIST28X28_8Bits_simerr_0_0.txt')
-    a = a.flatten()
-    b = np.loadtxt('AccuracyMNIST28X28_8Bits_simerr_30_30.txt')
-    b = b.flatten()
-    c = np.loadtxt('AccuracyMNIST28X28_8Bits_simerr_50_50.txt')
-    c = c.flatten()
-    d = np.loadtxt('AccuracyMNIST28X28_8Bits_simerr_70_70.txt')
-    d = d.flatten()
-    if j == 0:
-        data1 = [a, b, c, d]
-    elif j == 1:
-        data2 = [a, b, c, d]
-    else:
-        data3 = [a, b, c, d]
-
-	x = [data1, data2, data3]
-	blue_line = [0, 0, 1]
-	blue_fill = [43/51, 227/255, 240/255]
-	red_line = [1, 0, 0]
-	red_fill = [1, 213/255, 213/255]
-	green_line = [44/255, 189/255, 110/255]
-	green_fill = [160/255, 233/255, 193/255]
-	scripts.plotBox(x, [0, 30, 50, 70], ["AConnect 30%", "AConnect 50%", "AConnect 70%"], [
-		            red_line, blue_line, green_line], [red_fill, blue_fill, green_fill], './MNIST_test_'+wstd)
+a = np.loadtxt('MNIST28X28_8Bits_'+'30'+'_simerr_0_0.txt')
+a = a.flatten()
+b = np.loadtxt('MNIST28X28_8Bits_'+'30'+'_simerr_30_30.txt')
+b = b.flatten()
+c = np.loadtxt('MNIST28X28_8Bits_'+'30'+'_simerr_50_50.txt')
+c = c.flatten()
+d = np.loadtxt('MNIST28X28_8Bits_'+'30'+'_simerr_70_70.txt')
+d = d.flatten()
+data1 = [a,b,c,d]
+a = np.loadtxt('MNIST28X28_8Bits_'+'50'+'_simerr_0_0.txt')
+a = a.flatten()
+b = np.loadtxt('MNIST28X28_8Bits_'+'50'+'_simerr_30_30.txt')
+b = b.flatten()
+c = np.loadtxt('MNIST28X28_8Bits_'+'50'+'_simerr_50_50.txt')
+c = c.flatten()
+d = np.loadtxt('MNIST28X28_8Bits_'+'50'+'_simerr_70_70.txt')
+d = d.flatten()
+data2 = [a,b,c,d]
+a = np.loadtxt('MNIST28X28_8Bits_'+'70'+'_simerr_0_0.txt')
+a = a.flatten()
+b = np.loadtxt('MNIST28X28_8Bits_'+'70'+'_simerr_30_30.txt')
+b = b.flatten()
+c = np.loadtxt('MNIST28X28_8Bits_'+'70'+'_simerr_50_50.txt')
+c = c.flatten()
+d = np.loadtxt('MNIST28X28_8Bits_'+'70'+'_simerr_70_70.txt')
+d = d.flatten()
+data3 = [a,b,c,d]
+x = [data1,data2,data3]
+blue_line = [0, 0, 1]
+blue_fill = [43/255, 227/255, 240/255]
+red_line = [1, 0, 0]
+red_fill = [1, 213/255, 213/255]
+green_line = [44/255, 189/255, 110/255]
+green_fill = [160/255, 233/255, 193/255]
+scripts.plotBox(x, [0, 30, 50, 70], ["AConnect 30%", "AConnect 50%", "AConnect 70%"], [
+		            red_line, blue_line, green_line], [red_fill, blue_fill, green_fill], 'MNIST_test_A-Connect_30_50_70')

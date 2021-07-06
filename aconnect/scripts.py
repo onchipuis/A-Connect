@@ -118,12 +118,12 @@ def MonteCarlo(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=0,net_name="Network",custo
 			_,accuracy = net.evaluate(Xtest,Ytest,verbose=0,use_multiprocessing=True)
 			return accuracy	
 
-	def MCsim(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=0,net_name="Network",custom_objects=None,dtype='float32',
-	optimizer=tf.keras.optimizers.SGD(learning_rate=0.1,momentum=0.9),loss=['sparse_categorical_crossentropy'],metrics=['accuracy'],top5=False):
+	def MCsim(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=Derr,net_name=net_name,custom_objects=custom_objects,dtype=dtype,
+	optimizer=optimizer,loss=loss,metrics=metrics,top5=top5):
 		acc_noisy = np.zeros((M,1)) #Initilize the variable where im going to save the noisy accuracy
-		top5acc_noisy = np.zeros((M,1)) #Initilize the variable where im going to save the noisy accuracy   top5
+		top5acc_noisy = np.zeros((M,1)) #Initilize the variable where im going to save the noisy accuracy   top5       
 		local_net = tf.keras.models.load_model(net,custom_objects = custom_objects) #Load the trained model
-		local_net.save_weights(filepath=('./Models/'+net_name+'_weights.h5')) #Save the weights. It is used to optimize the script RAM consumption
+		local_net.save_weights(filepath=(net_name+'_weights.h5')) #Save the weights. It is used to optimize the script RAM consumption
 		print(local_net.summary()) #Print the network summary
 		print('Simulation Nr.\t | \tWstd\t | \tBstd\t | \tAccuracy | \tTop-5 Accuracy\n')
 		print('---------------------------------------------------------------------------------------')
@@ -139,7 +139,7 @@ def MonteCarlo(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=0,net_name="Network",custo
 				acc_noisy[i] = classify(NetNoisy, Xtest, Ytest,top5) #Get the accuracy of the network                        
 			acc_noisy[i] = 100*acc_noisy[i]      
 			print('\t%i\t | \t%.1f\t | \t%.1f\t | \t%.2f | \t%.2f\n' %(i,Wstd*100,Bstd*100,acc_noisy[i],top5acc_noisy[i]))
-			local_net.load_weights(filepath=('./Models/'+net_name+'_weights.h5')) #Takes the original weights value.
+			local_net.load_weights(filepath=(net_name+'_weights.h5')) #Takes the original weights value.
 	#		return acc_noisy
 
 		#pool = Pool(mp.cpu_count())
@@ -154,13 +154,13 @@ def MonteCarlo(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=0,net_name="Network",custo
 		print('Min. Accuracy: %.2f%%\n' % np.amin(acc_noisy))
 		print('Max. Accuracy: %.2f%%\n'% np.amax(acc_noisy))
 
-		np.savetxt('./Results/'+net_name+'_simerr_'+str(int(100*Wstd))+'_'+str(int(100*Bstd))+'.txt',acc_noisy,fmt="%.2f") #Save the accuracy of M samples in a txt
+		np.savetxt(net_name+'_simerr_'+str(int(100*Wstd))+'_'+str(int(100*Bstd))+'.txt',acc_noisy,fmt="%.2f") #Save the accuracy of M samples in a txt
 		if top5: 
-			np.savetxt('./Results/TOP5_'+net_name+'_simerr_'+str(int(100*Wstd))+'_'+str(int(100*Bstd))+'.txt',top5acc_noisy,fmt="%.2f") #Save the accuracy of M samples in a txt    
-		np.savetxt('./Results/Stats/'+net_name+'_simerr_'+str(int(100*Wstd))+'_'+str(int(100*Bstd))+'.txt',stats,fmt="%.2f") #Save the median and iqr of M samples in a txt
+			np.savetxt('TOP5_'+net_name+'_simerr_'+str(int(100*Wstd))+'_'+str(int(100*Bstd))+'.txt',top5acc_noisy,fmt="%.2f") #Save the accuracy of M samples in a txt    
+		np.savetxt('Stats_'+net_name+'_simerr_'+str(int(100*Wstd))+'_'+str(int(100*Bstd))+'.txt',stats,fmt="%.2f") #Save the median and iqr of M samples in a txt
 		return acc_noisy, media	
-	return MCsim(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=0,net_name="Network",custom_objects=None,dtype='float32',
-		optimizer=tf.keras.optimizers.SGD(learning_rate=0.1,momentum=0.9),loss=['sparse_categorical_crossentropy'],metrics=['accuracy'],top5=False)		
+	return MCsim(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=Derr,net_name=net_name,custom_objects=custom_objects,dtype=dtype,
+		optimizer=optimizer,loss=loss,metrics=metrics,top5=top5)		
 	#Function to do inference. You also could have the top-5 accuracy if you passed to the model metrics and then setting top5=True
 def classify(net,Xtest,Ytest,top5):
 	def classify(net,Xtest,Ytest,top5):
@@ -192,7 +192,7 @@ def plotBox(data,labels,legends,color,color_fill,path):
 	Script to plot and save a box chart with custom style.
 	"""
 
-	def plotChart(ax,x,color=0,color_fill=0,labels=None): #Script that plots the box, needed in the script below
+	def plotChart(ax,x,color=color,color_fill=color_fill,labels=labels): #Script that plots the box, needed in the script below
 		boxprops = dict(linestyle='-', linewidth=3,facecolor=color_fill,color=color)
 		whiskerprops = dict(color=color, linewidth=3)
 		flierprops = dict(marker='.', markerfacecolor=color, markersize=6,
