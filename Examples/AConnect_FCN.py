@@ -53,12 +53,18 @@ for j in range(3):
     wstd = str(int(100*Wstd[j]))
     print("Testing A-Connect network trained with: ", wstd)
     for i in range(len(Simerr)):
+
+        if Simerr[i] != Wstd[j]:
+            force = "yes"
+        else:
+            force = "no"
+
         if Simerr[i] == 0:
             N = 1
         else:
             N = 1000
         print("Testing with error: ", str(int(Simerr[i])))
-        acc = scripts.MonteCarlo("MNIST_test_"+wstd+".h5", x_test, y_test, N, Simerr[i], Simerr[i], "no", net_name="MNIST28X28_8Bits_"+wstd, custom_objects={'FC_AConnect': layers.FC_AConnect},
+        acc = scripts.MonteCarlo("MNIST_test_"+wstd+".h5", x_test, y_test, N, Simerr[i], Simerr[i], force, net_name="MNIST28X28_8Bits_"+wstd, custom_objects={'FC_AConnect': layers.FC_AConnect},
                                  optimizer=tf.keras.optimizers.SGD(learning_rate=0.1, momentum=0.9), loss=['sparse_categorical_crossentropy'], metrics=['accuracy', top5], top5=True)
 a = np.loadtxt('MNIST28X28_8Bits_'+'30'+'_simerr_0_0.txt')
 a = a.flatten()
