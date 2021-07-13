@@ -50,10 +50,10 @@ for j in range(3):
 	print("Testing A-Connect network trained with: ", wstd)
 	for i in range(len(Simerr)):
 
-        if Simerr[i] != Wstd[j]:
-            force = "yes"
-        else:
-            force = "no"
+		if Simerr[i] != Wstd[j]:
+		    force = "yes"
+		else:
+		    force = "no"
 
 		if Simerr[i] == 0:
 			N = 1
