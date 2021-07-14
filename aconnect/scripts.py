@@ -249,6 +249,10 @@ def plotBox(data,labels,legends,color,color_fill,path):
 		ax.spines['right'].set_linewidth(1.4)
 		ax.spines['bottom'].set_linewidth(1.4)
 		ax.spines['left'].set_linewidth(1.4)
+<<<<<<< HEAD
 		
 		plt.savefig(path, bbox_inches = 'tight')   
+=======
+		plt.savefig(path+'.png')   
+>>>>>>> a00e7cd124ebd52e3e5af8e1d2a1ccbd0a67618f
 	return plotBox(data,labels,legends,color,color_fill,path)
