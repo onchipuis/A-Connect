@@ -205,7 +205,7 @@ def plotBox(data,labels,legends,color,color_fill,path):
 		            )
 		return b
 		
-	def plotBox(data,labels,legends,color,color_fill,path): #Top script  to plot the box with custom style
+	def plotBox(data,labels,legends,color,color_fill,path,figsize=(3,5)): #Top script  to plot the box with custom style
 		"""
 		HOW TO:
 		data: Data that you want to plot, should be a list or a list of list (maximum 3 list) i.e. data= [data1,data2,data3] where data1 = [x1,x2,...], 
@@ -215,32 +215,31 @@ def plotBox(data,labels,legends,color,color_fill,path):
 		color: Color for the lines. Should be a list of size 3 with RGB Color.
 		color_fill: Color for filling the boxes. Should be a list of size 3 with RGB Color.
 		path: String. Where you want to save the image and the name of the archive. By default you do not need to indicate a saving format. By default all
-		the images are saved in png format."""
-		font = {'family':'serif','style':'normal','weight' : 'semibold',
-		    'size'   : 12}      
-		fig = plt.figure(figsize=(5,10))
-		ax = fig.add_axes([0.1,0.1,0.8,0.8])
-		#plt.rcParams['mathtext.rm'] = 'Arial'
-		plt.rc('font',**font)            
-		ax.set_xlabel("Simulation Error (%)",fontdict={'family':'serif','style':'normal','weight' : 'semibold',
+		the images are saved in png format."""		
+		font = {'family':'Arial','style':'normal','weight' : 'semibold',
+		    'size'   : 14}      
+		plt.rc('font',**font)   		    
+		fig = plt.figure(figsize=figsize)
+		ax = fig.add_axes([0.1,0.1,0.8,0.8])         
+		ax.set_xlabel("Simulation Error (%)",fontdict={'family':'Arial','style':'normal','weight' : 'semibold',
 		    'size'   : 15})
-		ax.set_ylabel("Validation Accuracy (%)",fontdict={'family':'serif','style':'normal','weight' : 'semibold',
-		    'size'   : 17})  
+		ax.set_ylabel("Validation Accuracy (%)",fontdict={'family':'Arial','style':'normal','weight' : 'semibold',
+		    'size'   : 16})  
 		d_size = len(data)   
 		if d_size == 4:     
 		    b1 = plotChart(ax,data,color=color,color_fill=color_fill,labels=labels)
-		    ax.legend([b1["boxes"][0]],legends, loc='lower left',prop={'family':'serif','style':'normal','weight' : 'semibold',
+		    ax.legend([b1["boxes"][0]],legends, loc='lower left',prop={'family':'Arial','style':'normal','weight' : 'semibold',
 		    'size'   : 12})     
 		elif d_size == 2:
 		    b1 = plotChart(ax,data[0],color=color[0],color_fill=color_fill[0],labels=labels)            
 		    b2 = plotChart(ax,data[1],color=color[1],color_fill=color_fill[1],labels=labels)
-		    ax.legend([b1["boxes"][0], b2["boxes"][0]],[legends[0], legends[1]], loc='lower left',prop={'family':'serif','style':'normal','weight' : 'semibold',
+		    ax.legend([b1["boxes"][0], b2["boxes"][0]],[legends[0], legends[1]], loc='lower left',prop={'family':'Arial','style':'normal','weight' : 'semibold',
 		    'size'   : 12})
 		elif d_size == 3:
 		    b1 = plotChart(ax,data[0],color=color[0],color_fill=color_fill[0],labels=labels)            
 		    b2 = plotChart(ax,data[1],color=color[1],color_fill=color_fill[1],labels=labels)
 		    b3 = plotChart(ax,data[2],color=color[2],color_fill=color_fill[2],labels=labels)        
-		    ax.legend([b1["boxes"][0], b2["boxes"][0],b3["boxes"][0]],[legends[0], legends[1], legends[2]], loc='lower left',prop={'family':'serif','style':'normal','weight' : 'semibold',
+		    ax.legend([b1["boxes"][0], b2["boxes"][0],b3["boxes"][0]],[legends[0], legends[1], legends[2]], loc='lower left',prop={'family':'Arial','style':'normal','weight' : 'semibold',
 		    'size'   : 12})   
 		else:
 		    print("Not supported size")         
