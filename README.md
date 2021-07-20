@@ -35,4 +35,4 @@ Or you can copy and paste the folder aconnect to your project folder.
 In [AConnect](./AConnect) you can find the library and a fully description of project. [Examples](./Examples) there are some examples of how to use the library with two simple neural networks. One fully connected network and one convolutional network.
 
 ## Citing A-Connect
-A-Connect is a project developed by Luis Rueda, Ricardo Vergel and Edward Silva. If A-Connect contributes to a  your project, please acknowledge this work by citing the original paper and citing this library.
+A-Connect is a project developed by Ricardo Vergel,Edward Silva, Luis Rueda and Elkim Roa. If A-Connect contributes to your project, please acknowledge this work by citing the original paper and citing this library.
