@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 #Function to make the monte carlo simulation. To see more please go to the original file in Scripts
 def MonteCarlo(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=0,net_name="Network",custom_objects=None,dtype='float32',
-	optimizer=tf.keras.optimizers.SGD(learning_rate=0.1,momentum=0.9),loss=['sparse_categorical_crossentropy'],metrics=['accuracy'],top5=False):
+	optimizer=tf.keras.optimizers.SGD(learning_rate=0.1,momentum=0.9),loss=['sparse_categorical_crossentropy'],metrics=['accuracy'],top5=False,run_model_eagerly=False,evaluate_batch_size=None):
 	"""
 	Input Parameters:
 	net: Name of the network model you want to test (it must be saved in the folder Models)
@@ -18,6 +18,8 @@ def MonteCarlo(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=0,net_name="Network",custo
 	SRAMsz: Matrix dimension for the static error matrix that you want to generate. It is depend on the dimension of the layer weights
 	SRAMBsz: Vector dimension for the static error vector that you want to generate. It is depend on the dimension of the layer weights
 	optimizer,loss,metrics: The values that you used during the training
+	run_model_eagerly: Set to True to run the noisy model eagerly, can help to increase the performance in certain cases
+	evaluate_batch_size: Batch size used when evaluating the model, higher values increase performance at the expense of a higher memory usage
 	This function returns the noisy accuracy values and the mean of this values
 	"""
 
@@ -110,12 +112,12 @@ def MonteCarlo(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=0,net_name="Network",custo
 		return NoisyNet,Wstd,Bstd
 					
 
-	def classify(net,Xtest,Ytest,top5):
+	def classify(net,Xtest,Ytest,top5,ev_batch_size=None):
 		if top5:
-			_, accuracy, top5acc = net.evaluate(Xtest,Ytest,verbose=0,use_multiprocessing=True)
+			_, accuracy, top5acc = net.evaluate(Xtest,Ytest,verbose=0,batch_size=ev_batch_size)
 			return accuracy, top5acc
 		else:        
-			_,accuracy = net.evaluate(Xtest,Ytest,verbose=0,use_multiprocessing=True)
+			_,accuracy = net.evaluate(Xtest,Ytest,verbose=0,batch_size=ev_batch_size)
 			return accuracy	
 
 	def MCsim(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=Derr,net_name=net_name,custom_objects=custom_objects,dtype=dtype,
@@ -131,12 +133,12 @@ def MonteCarlo(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=0,net_name="Network",custo
 
 		for i in range(M): #Iterate over M samples
 			[NetNoisy,Wstdn,Bstdn] = add_Wnoise(local_net,Wstd,Bstd,force,Derr,dtype=dtype) #Function that adds the new noisy matrices to the layers
-			NetNoisy.compile(optimizer,loss,metrics) #Compile the model. It is necessary to use the model.evaluate
+			NetNoisy.compile(optimizer,loss,metrics,run_eagerly=run_model_eagerly) #Compile the model. It is necessary to use the model.evaluate
 			if top5:       
-				acc_noisy[i],top5acc_noisy[i] = classify(NetNoisy, Xtest, Ytest,top5) #Get the accuracy of the network
+				acc_noisy[i],top5acc_noisy[i] = classify(NetNoisy, Xtest, Ytest,top5,ev_batch_size=evaluate_batch_size) #Get the accuracy of the network
 				top5acc_noisy[i] = 100*top5acc_noisy[i]              
 			else:
-				acc_noisy[i] = classify(NetNoisy, Xtest, Ytest,top5) #Get the accuracy of the network                        
+				acc_noisy[i] = classify(NetNoisy, Xtest, Ytest,top5,ev_batch_size=evaluate_batch_size) #Get the accuracy of the network                        
 			acc_noisy[i] = 100*acc_noisy[i]      
 			print('\t%i\t | \t%.1f\t | \t%.1f\t | \t%.2f | \t%.2f\n' %(i,Wstd*100,Bstd*100,acc_noisy[i],top5acc_noisy[i]))
 			local_net.load_weights(filepath=(net_name+'_weights.h5')) #Takes the original weights value.
@@ -162,13 +164,13 @@ def MonteCarlo(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=0,net_name="Network",custo
 	return MCsim(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=Derr,net_name=net_name,custom_objects=custom_objects,dtype=dtype,
 		optimizer=optimizer,loss=loss,metrics=metrics,top5=top5)		
 	#Function to do inference. You also could have the top-5 accuracy if you passed to the model metrics and then setting top5=True
-def classify(net,Xtest,Ytest,top5):
+def classify(net,Xtest,Ytest,top5,ev_batch_size=None):
 	def classify(net,Xtest,Ytest,top5):
 		if top5:
-			_, accuracy, top5acc = net.evaluate(Xtest,Ytest,verbose=0,use_multiprocessing=True)
+			_, accuracy, top5acc = net.evaluate(Xtest,Ytest,verbose=0,batch_size=ev_batch_size)
 			return accuracy, top5acc
 		else:        
-			_,accuracy = net.evaluate(Xtest,Ytest,verbose=0,use_multiprocessing=True)
+			_,accuracy = net.evaluate(Xtest,Ytest,verbose=0,batch_size=ev_batch_size)
 			return accuracy	
 	return classify(net,Xtest,Ytest,top5)
 	#Function to load the MNIST dataset. THis function could load the standard 28x28 8 or 4 bits dataset, or 11x11 8 or 4 bits dataset.		
