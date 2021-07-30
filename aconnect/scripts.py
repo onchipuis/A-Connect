@@ -174,19 +174,22 @@ def classify(net,Xtest,Ytest,top5,ev_batch_size=None):
 			return accuracy	
 	return classify(net,Xtest,Ytest,top5)
 	#Function to load the MNIST dataset. THis function could load the standard 28x28 8 or 4 bits dataset, or 11x11 8 or 4 bits dataset.		
-def load_ds(imgSize=[28,28], Quant=8):
-	(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+def load_ds(imgSize=[28,28], Quant=8): 
+	(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()  
 	if (imgSize != [28,28]):
 		x_train, x_test = np.expand_dims(x_train,-1),np.expand_dims(x_test,-1) #Need an extra dimension to apply tf.image.resize
-		x_train = tf.image.resize_with_pad(x_train,imgSize[0],imgSize[1], method=tf.image.ResizeMethod.BICUBIC,antialias=True) #This function applies a resize similar to imresize in matlab
-		x_test = tf.image.resize_with_pad(x_test,imgSize[0],imgSize[1], method=tf.image.ResizeMethod.BICUBIC,antialias=True)
+		x_train = tf.image.resize(x_train,[imgSize[0],imgSize[1]],method=tf.image.ResizeMethod.BILINEAR,antialias=True) #This function applies a resize similar to imresize in matlab
+		x_test = tf.image.resize(x_test,[imgSize[0],imgSize[1]],method=tf.image.ResizeMethod.BILINEAR,antialias=True)
 		x_train, x_test = np.squeeze(x_train,-1),np.squeeze(x_test,-1) #Remove the extra dimension
+	x_train = tf.cast(x_train,tf.uint8)  
+	x_test = tf.cast(x_test,tf.uint8)                 
 	if(Quant !=8):
 		xlsb = 256/2**Quant 
 		x_train = np.floor(np.divide(x_train,xlsb))
 		x_test = np.floor(np.divide(x_test,xlsb))
-	
-	return (x_train,y_train),(x_test,y_test)
+		x_train = tf.cast(x_train,tf.uint8)  
+		x_test = tf.cast(x_test,tf.uint8)    
+	return (x_train,y_train),(x_test,y_test)	
 	#Function to plot the box chart
 def plotBox(data,labels,legends,color,color_fill,path):
 	import matplotlib.pyplot as plt
