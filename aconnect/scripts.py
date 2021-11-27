@@ -158,8 +158,8 @@ def MonteCarlo(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=0,net_name="Network",custo
 
 		np.savetxt(net_name+'_simerr_'+str(int(100*Wstd))+'_'+str(int(100*Bstd))+'.txt',acc_noisy,fmt="%.2f") #Save the accuracy of M samples in a txt
 		if top5: 
-			np.savetxt('TOP5_'+net_name+'_simerr_'+str(int(100*Wstd))+'_'+str(int(100*Bstd))+'.txt',top5acc_noisy,fmt="%.2f") #Save the accuracy of M samples in a txt    
-		np.savetxt('Stats_'+net_name+'_simerr_'+str(int(100*Wstd))+'_'+str(int(100*Bstd))+'.txt',stats,fmt="%.2f") #Save the median and iqr of M samples in a txt
+			np.savetxt(net_name+'_TOP5'+'_simerr_'+str(int(100*Wstd))+'_'+str(int(100*Bstd))+'.txt',top5acc_noisy,fmt="%.2f") #Save the accuracy of M samples in a txt    
+		np.savetxt(net_name+'_stats'+'_simerr_'+str(int(100*Wstd))+'_'+str(int(100*Bstd))+'.txt',stats,fmt="%.2f") #Save the median and iqr of M samples in a txt
 		return acc_noisy, media	
 	return MCsim(net,Xtest,Ytest,M,Wstd,Bstd,force,Derr=Derr,net_name=net_name,custom_objects=custom_objects,dtype=dtype,
 		optimizer=optimizer,loss=loss,metrics=metrics,top5=top5)		
