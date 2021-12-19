@@ -1,0 +1,12 @@
+# Created by https://www.toptal.com/developers/gitignore/api/text
+# Edit at https://www.toptal.com/developers/gitignore?templates=text
+
+
+
+# End of https://www.toptal.com/developers/gitignore/api/text
+__pycache__*
+setup.cfg 
+setup.py
+MANIFEST
+PKG-INFO
+dist/
