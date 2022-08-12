@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 import os
 
-from layers import Merr_distr
+from aconnect.layers import Merr_distr
 
 def Merr_distr_s(shape, stddev, stddev_layer, errDistr):
     
